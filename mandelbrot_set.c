@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   mandelbrot_set.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: goulem <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: aet-tass <aet-tass@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/06 01:20:49 by goulem            #+#    #+#             */
-/*   Updated: 2023/02/06 02:05:37 by goulem           ###   ########.fr       */
+/*   Created: 2023/02/06 14:54:17 by aet-tass          #+#    #+#             */
+/*   Updated: 2023/02/06 15:00:04 by aet-tass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 /*
  * Before delving deeper into the Mandelbrot set and its properties, let's take
@@ -78,7 +79,9 @@
   * if the number of iterations is too large, the fractal will tend to be too sharp
   */
 
-/*
+/* 
+ * So far, all things are great, but unfortunately some programming languages do not deal with complex numbers,
+ * including the C language .
  * That's why we're going to Define 2 variables for the number Z : one for the real part Z_reel and one for the
  *  imaginary part Z_imag  . the same will apply for c . 
  *  The  Zn+1 = Zn^2 + c  becomes :
