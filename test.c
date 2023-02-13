@@ -6,12 +6,12 @@
 /*   By: aet-tass <aet-tass@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 19:53:23 by aet-tass          #+#    #+#             */
-/*   Updated: 2023/02/12 21:26:41 by aet-tass         ###   ########.fr       */
+/*   Updated: 2023/02/13 21:28:31 by goulem           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <mlx.h>
 #include <stdio.h>
+#include "minilibxlinux/mlx.h"
 
 typedef struct s_mlx
 {
@@ -73,3 +73,31 @@ int main()
 
 	mlx_loop(mlx.init);
 }
+
+void    mandelbrot_set.c(double	c_re, double c_img)
+{
+	int	max_iteration = 50
+	double	z_re = 0
+7	double	z_img = 0
+	int	i = 0
+9	modulo = sqrt(pow(z_re, 2) +  pow(z_img, 2));
+10     while ( modulo < 2 &&  i < max_iteration)
+	{
+11         	double	tmp ;
+		/*
+		 * We store zr in a temporary variable to avoid using the
+		 * new value of zr in the z_img calculation
+		 */
+		tmp = z_re;
+12         	z_re = pow(z_re, 2 ) - pow(z_img, 2) + c_re;
+13         	z_img = 2*z_img*tmp + c_img;
+14         	i++;
+	}
+}
+
+/*
+ * First of all, you should know that the Mandelbrot set is always
+ * between -2.1 and 0.6 on the x-axis and between -1.2 and 1.2 on the
+ * Ordered
+ */
+
