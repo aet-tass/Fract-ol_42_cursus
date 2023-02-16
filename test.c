@@ -6,7 +6,7 @@
 /*   By: aet-tass <aet-tass@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 19:53:23 by aet-tass          #+#    #+#             */
-/*   Updated: 2023/02/14 01:10:40 by aet-tass         ###   ########.fr       */
+/*   Updated: 2023/02/16 18:49:50 by aet-tass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,41 +38,45 @@ int handle(int button, int x, int y, t_mlx *mlx)
 	return (0);
 }*/
 
-/*int draw_shape(t_mlx *mlx, int x, int y, int color)
+int draw_fractal(t_mlx *mlx, int width, int height, int color)
 {
 	char *addr;
 
-	addr = mlx->addr + (y * mlx->line_lenght + x * (mlx->bit_per_pixel / 8));
+	addr = mlx->addr + (height * mlx->line_lenght + width * (mlx->bit_per_pixel / 8));
 	*(unsigned int *)addr = color;
 	return (0);
-}*/
+}
 
-void    mandelbrot(t_mlx *mlx)
+void    mandelbrot_set(t_mlx *mlx)
 {
-	int	max_iteration = 255;
+	int	max_iteration = 50;
 	double	z_re = 0;
 	double	z_img = 0;
 	double	c_re = 0;
 	double	c_img = 0;
 	int	i = 0;
-	int x = 0;
-	int y = 0;
-	double modulo ;
-	 
+	int y = 0, x = 0;
+	double sqrt_modulus ;
+	double	scale_factor;
+	double	height = 1000;
+	double	width = 1000;
+	int	color;
 
-	while (x < 1000)
+	while (x < width)
 	{
 		y = 0;
-		while (y < 1000)
+		while (y < height)
 		{
+
 			z_re = 0;
 			z_img = 0;
-			c_re = (x - 1000 / 2.0) * (4.0 / 1000);
-			c_img = (y - 1000 / 2.0) * (4.0 / 1000);
+			scale_factor = 4.0/ width;
+			c_re = (x - width / 2.0) * scale_factor;
+			c_img = (y - height / 2.0) * scale_factor;
 			i = 0;
 			//modulo = sqrt(pow(z_re, 2) + pow(z_img, 2));
-			modulo = z_re * z_re + z_img * z_img;
-     		while ( modulo < 4 &&  i < max_iteration)
+			sqrt_modulus = z_re * z_re + z_img * z_img;
+     		while ( sqrt_modulus < 4 &&  i < max_iteration)
 			{
          		double	tmp ;
 				tmp = z_re;
@@ -83,19 +87,24 @@ void    mandelbrot(t_mlx *mlx)
         	 	z_re = z_re * z_re - z_img * z_img + c_re;
          		z_img = 2 * z_img * tmp + c_img;
 				//modulo  = sqrt(pow(z_re, 2) + pow(z_img, 2));	
-				modulo = z_re * z_re + z_img * z_img;
+				sqrt_modulus = z_re * z_re + z_img * z_img;
          		i++;
 			}
-	 		if (i < 10)
-		 		mlx_pixel_put(mlx->init, mlx->window, x, y, 0xFFFFFF);
-			else if (i < 100)
-				mlx_pixel_put(mlx->init, mlx->window, x, y, 0xFF0000);
+			int	color = i % 16 * 0x000000+ i % 16 * 0xFFFFFF;
+			int	color2 = i % 16 * 0xF90000 + i % 16 * 0xF2D027;
+			if (i < 17)
+		 		draw_fractal(mlx, x ,  y, color);
+			else if (i < 50)
+				draw_fractal(mlx,  x , y, color2);
 	 		else
-		 		mlx_pixel_put(mlx->init, mlx->window, x, y, 0x000000);
+		 		draw_fractal(mlx, x , y, 0x000000);
+
 			y++;
 		}
 	 	x++;
 	}
+	mlx_put_image_to_window(mlx->init, mlx->window, mlx->img, 0, 0);
+	mlx_loop(mlx->init);
 }
 
 int main()
@@ -107,11 +116,11 @@ int main()
 
 	mlx.window = mlx_new_window(mlx.init, 1000, 1000, "et-tass");
 	
-	//mlx.img = mlx_new_image(mlx.init, 500, 500);
+	mlx.img = mlx_new_image(mlx.init, 1000, 1000);
 
-	//mlx.addr = mlx_get_data_addr(mlx.img, &mlx.bit_per_pixel, &mlx.line_lenght, &mlx.endian);
+	mlx.addr = mlx_get_data_addr(mlx.img, &mlx.bit_per_pixel, &mlx.line_lenght, &mlx.endian);
 
-	//draw_shape(&mlx, 100, 100, 0xFFFFFF);
+	//draw_fractal(&mlx, width, height, mlx.color);
 
 	//mlx_put_image_to_window(mlx.init, mlx.window, mlx.img, 0, 0);
 	
@@ -123,7 +132,7 @@ int main()
 
 	// mlx_mouse_hook(mlx.window, handle, &mlx);
 	
-	mandelbrot(&mlx);
+	mandelbrot_set(&mlx);
 
 	mlx_loop(mlx.init);
 }
@@ -133,3 +142,5 @@ int main()
  * between -2.1 and 0.6 on the x-axis and between -1.2 and 1.2 on the
  * Ordered
  */
+
+
