@@ -3,107 +3,111 @@
 /*                                                        :::      ::::::::   */
 /*   mandelbrot_set.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aet-tass <aet-tass@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aet-tass <aet-tass@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/06 14:54:17 by aet-tass          #+#    #+#             */
-/*   Updated: 2023/02/13 20:35:51 by goulem           ###   ########.fr       */
+/*   Created: 2023/02/19 14:50:08 by aet-tass          #+#    #+#             */
+/*   Updated: 2023/02/20 00:15:57 by aet-tass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "fractol.h"
 
-/*
- * Before delving deeper into the Mandelbrot set and its properties, let's take
- * a look first at one of the most important concepts of mathematics, on which 
- * the fractal is based: complex numbers
- *
- * The complex number is basically the combination of a real number(part) and an 
- * imaginary number(part). Which means: if we note 'a' the real part and 'b' the 
- * imaginary part, the number complex, denoted z, will be z = a+ib .
- * Also, a,b belongs to real numbers and i = √-1 --> i^2 = −1 .
- *
- * Complex numbers can be used to represent a point in a coordinate system.
- * For example, the coordinate point (5; 2) can be represented by the complex number 5 + 2i.
- * In this example ;  the real part of the complex number corresponds to the abscissa of the 
- * point and the part imaginary on the ordinate
- *
- * The distance OM corresponds to the modulus of the number z (also called the complex norm).
- * It can therefore be deduced that The modulus of z, denoted |z|, and defind by : 
- *                              |a+ib| = sqrt(a^2+b^2).
- */
+int		check_condition(t_mlx *mlx)
+{
+	mlx->z.re = 0;
+	mlx->z.im = 0;
+	double	modulus_squared;
+	double	scale_factor;
+	mlx->max_iter = 50;
+	mlx->iter = 0;
+	modulus_squared = mlx->z.re * mlx->z.re + mlx->z.im * mlx->z.im;
+	while (modulus_squared < 4 && mlx->iter < mlx->max_iter)
+	{
+		mlx->tmp = mlx->z.re;
+		mlx->z.re = mlx->z.re * mlx->z.re - mlx->z.im * mlx->z.im + mlx->c.re;
+		mlx->z.im = 2 * mlx->z.im * mlx->tmp + mlx->c.im;
+		modulus_squared = mlx->z.re * mlx->z.re + mlx->z.im * mlx->z.im;
+		mlx->iter++;		
+	}
+	return(mlx->iter);	
+}
 
+void	mapping_pixels(t_mlx *mlx)
+{
+	mlx->max_iter = 50;
+	double	scale_factor;
+	scale_factor = 4.0 / width;
+	mlx->win.i = 0;
+	mlx->win.j = 0;
+	while (mlx->win.i < width)
+	{
+		while (mlx->win.j < height)
+		{
+			mlx->c.re = (mlx->win.i - width / 2.0) * scale_factor;
+			mlx->c.im	=(mlx->win.j - height / 2.0) * scale_factor;
+			mlx->iter = check_condition(mlx); 
+			
+		mlx->win.j++;
+		}
+		mlx->win.i++;
+	}	
+		
+	
+}
 
-/*  You think we're done ! Oops, sorry to disappoint you : Our second concept that we must know is :
- *                                         The Sequences .
- * 
- * In mathematics, a sequence is a list of things, typically numbers, which are called the terms of the sequence.
- * A sequence can be defined directly as a function of n. This is the simplest case Example: U(n) = 4n + 1 
- * 
- * However , there is another method to define a sequence : we define the first term of the sequence and a
- * recurrence formula that will allow us to calculate a term based on the previous one.
- *
- *             example: the first term U0 = 1 and the recurrence formula Un+1 = 2Un - 2.
- */
+void	mandelbrot_set(t_mlx *mlx)
+{
+	int i = 0;
+	int j = 0;
+	while ( i++ < width)
+	{
+		while (j++ < height)
+		{
+			mapping_pixels(mlx);
+			//check_condition(mlx);	
+			
+			int	color = mlx->iter % 16 * 0x000000+ mlx->iter % 16 * 0xFFFFFF;
+			int	color2 = mlx->iter % 16 * 0xF90000 + mlx->iter % 16 * 0xF2D027 + mlx->iter % 16 * 0xFFFFFF;
+			 if (mlx->iter < 10)
+		 		draw_fractal(mlx,  j ,  i, color2);
+			 else if (mlx->iter < 50)
+			 	draw_fractal(mlx,   j , i, color2);
+	 		 else
+		 	 	draw_fractal(mlx,  j ,  i, 0xFFFFFF);
+		}
+		//int i++;
+	}
+	mlx_put_image_to_window(mlx->init_ptr, mlx->window_ptr, mlx->img_ptr, 0, 0);
 
+	//int j++;
+}
 
-/*
- * I hope you have understood what I have explained so far. And remember, what has been mentioned is only the 
- * simple basics that we will need in this project. However,  if you want to go deeper , kindly search on both:
- *                                                    google & youtube 
- */
-
-
-/*
- * It sounds like you want to talk about the most inportant , about something magical. Well ,  here is what is 
- * considered as something more than magic : Fractals (Fractals are infinitely complex patterns that are 
- * self-similar across different scales. They are created by repeating a simple process over and over in an
- * ongoing feedback loop)
- *
- */
- 
-
- /*  Let's start with the Mandelbrot set :
-  *  Let us set a constant c ∈ C and  from this constant we define a sequence Zn(c) by recurrence:
-  *                                     - Z0(c) = 0
-  *                                     - Zn+1(c) = Zn(c)^2 + c
-  *
-  * The Mandelbrot set is a fractal that is defined as the set of points c of the complex plane for
-  *  which the recurring sequence defined by Zn+1 = Zn^2 + c and the condition Z0 = 0 does not tend 
-  *  to infinity (in modulus).
-  *
-  * And yet , his kind of calculation is very complicated for ourcomputer . therefore, we only need 
-  * to test if the Zn module exceeds 2 at any given time . If he does not , then it's a  part of the fractal .
-  * 
-  * So we will simply check that it does not exceed 2 up to a certain rank ,  large enough to that it is
-  * reasonable to think that it will not exceed it afterwards. This is the rank (called number of iterations) .
-  * If the Number of iterations is not big enough, we will consider too many points as part of fractal, whereas
-  * if the number of iterations is too large, the fractal will tend to be too sharp
-  */
-
-/* 
- * So far, all things are great, but unfortunately some programming languages do not deal with complex numbers,
- * including the C language .
- * That's why we're going to Define 2 variables for the number Z : one for the real part Z_reel and one for the
- *  imaginary part Z_imag  . the same will apply for c . 
- *  The  Zn+1 = Zn^2 + c  becomes :
- *                                     z = z^2 + c
- *                                       = (z_r + i*z_i)^2 + (c_r + i*c_i)
- *                                       = (z_r)^2 + 2i*z_r * z_i + (i*z_i)^2 + c_r + i*c_i
- *                                       = (z_r)^2 + 2i*z_r*z_i − (z_i)^2 + c_r + i*c_i
- *                                       = (z_r^2 − z_i^2 + c_r) + i(2*z_r*z_i + c_i)
- *
- * All that remains is to separate the reel  part and the imaginary part :
- *                        Zn_r = (z_r)^2 − (z_i)^2 + c_r
- *                        Zn_i = 2*z_r*z_i + c_i
- */
+int	main()
+{
+	t_mlx mlx;
 
 
-/*
- * Moreover, instead of calculating the modulus of z and comparing it to 2, we will just calculate 
- * the square of its components (real part and imaginary part) and compare the result to 4 :
- *       |Z| = |a + ib| = sqrt(a^2 + b^2) < 2 --> a^2 + b^2 < 4
- */
+	mlx.init_ptr = mlx_init();
 
+	mlx.window_ptr = mlx_new_window(mlx.init_ptr, 1000, 1000, "et-tass");
 
-/*
- * And here we go , The most exciting part is just beginning ! Let's turn all this talk into an  elegant C code 
- */
+	mlx.img_ptr = mlx_new_image(mlx.init_ptr, 1000, 1000);
+
+	mlx.addr_ptr = mlx_get_data_addr(mlx.img_ptr, &mlx.bit_per_pixel, &mlx.line_lenght, &mlx.endian);
+
+	//draw_fractal(&mlx, width, height, mlx.color);
+
+	//mlx_put_image_to_window(mlx.init, mlx.window_ptr, mlx.img, 0, 0);
+
+	// mlx_pixel_put(init, window, 250, 250, 0x10FF0000);
+
+	// mlx_string_put(init, window, 100, 100, 0xFFFFFFFF, "tass");
+
+	// mlx_key_hook(window, fucntion_handle, &mlx);
+
+	// mlx_mouse_hook(mlx.window, handle, &mlx);
+
+	mandelbrot_set(&mlx);
+
+	mlx_loop(mlx.init_ptr);
+}
