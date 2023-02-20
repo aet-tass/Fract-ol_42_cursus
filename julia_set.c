@@ -6,48 +6,77 @@
 /*   By: aet-tass <aet-tass@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 16:55:07 by aet-tass          #+#    #+#             */
-/*   Updated: 2023/02/19 20:03:30 by aet-tass         ###   ########.fr       */
+/*   Updated: 2023/02/20 15:56:27 by aet-tass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "fractol.h"
 
-void	julia_set(t_mlx *mlx)
+int		check_condition(t_mlx *mlx)
 {
-	int	max_iter;
-	int	iter;
-	double	sqrt_modulus;
+	double	modulus_squared;
 	double	scale_factor;
-	int		height;
-	int		width;
-	t_mlx	nb;
-	t_mlx	win;
-	
-	max_iter = 50;
-	iter = 0;
-	while (win.i < width)
+	mlx->max_iter = 50;
+	mlx->iter = 0;
+	modulus_squared = mlx->z.re * mlx->z.re + mlx->z.im * mlx->z.im;
+	while (modulus_squared < 4 && mlx->iter < mlx->max_iter)
 	{
-		win.j = 0;
-		{	
-			
-			nb.c.re = 0.285;
-			nb.c.im = 0.01;
-			scale_factor = 4.0 / width;
-			nb.z.re = (win.i - width / 2.0) * scale_factor;
-			nb.z.im	=(win.j - height / 2.0) * scale_factor;
-
-			sqrt_modulus = nb.z.re * nb.z.re + nb.z.im * nb.z.im;
-			while ( sqrt_modulus < 4 && iter < max_iter)
-			{
-				double	tmp;
-				tmp = nb.z.re;
-				nb.z.re = nb.z.re * nb.z.re - nb.z.im * nb.z.im + nb.c.re;
-				nb.z.im = 2 * nb.z.im * tmp + nb.c.im;
-				sqrt_modulus = nb.z.re * nb.z.re + nb.z.im * nb.z.im;
-				iter++;
-			}
-		}
+		
+		mlx->tmp = mlx->z.re;
+		mlx->z.re = mlx->z.re * mlx->z.re - mlx->z.im * mlx->z.im + mlx->c.re;
+		mlx->z.im = 2 * mlx->z.im * mlx->tmp + mlx->c.im;
+		modulus_squared = mlx->z.re * mlx->z.re + mlx->z.im * mlx->z.im;
+		mlx->iter++;		
 	}
+	return(mlx->iter);	
 }
 
+void	mapping_pixels(t_mlx *mlx)
+{
+	double	scale_factor;
+	scale_factor = 4.0 / width;
+	mlx->z.re = (mlx->win.i - width / 2.0) * scale_factor;
+	mlx->z.im	=(mlx->win.j - height / 2.0) * scale_factor; 
+}
+
+void	julia_set(t_mlx	*mlx)
+{
+	mlx->c.re = -0.8;
+	mlx->c.im = 0.156;
+	mlx->max_iter = 50;
+	mlx->win.i = 0;
+	while (mlx->win.i < width)
+	{
+		mlx->win.j = 0;
+		while (mlx->win.j < height)
+		{
+			mlx->z.re = 0;
+			mlx->z.im = 0;
+			mapping_pixels(mlx);
+			mlx->iter = check_condition(mlx); 
+			int	color1 = mlx->iter % 16 * 0x0F1011+ mlx->iter % 16 * 0xE9E9E9 +  mlx->iter % 16 * 0x2D3030 ;
+			int	color2 = mlx->iter % 16 * 0x0F1011 + mlx->iter % 16 * 0xF2D027 ;
+			 if (mlx->iter < 17)
+		 		draw_fractal(mlx,  mlx->win.i ,  mlx->win.j , color1);
+			 else if (mlx->iter < 50)
+			 	draw_fractal(mlx,  mlx->win.i ,mlx->win.j , color2);
+	 		 else
+		 	 	draw_fractal(mlx,  mlx->win.i ,  mlx->win.j , 0xFFFFFF);
+			mlx->win.j++;
+		}
+		mlx->win.i++;
+		
+	}
+	mlx_put_image_to_window(mlx->init_ptr, mlx->window_ptr, mlx->img_ptr, 0, 0);
+}
+		
+
+int	main()
+{
+	t_mlx	mlx;
+	ft_init(&mlx);
+	julia_set(&mlx);
+
+	mlx_loop(mlx.init_ptr);
+}

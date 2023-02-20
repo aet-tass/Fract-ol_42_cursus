@@ -6,7 +6,7 @@
 /*   By: aet-tass <aet-tass@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 14:42:42 by aet-tass          #+#    #+#             */
-/*   Updated: 2023/02/19 23:15:56 by aet-tass         ###   ########.fr       */
+/*   Updated: 2023/02/20 15:46:05 by aet-tass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,23 +18,6 @@
 # define	height 1000
 # define	title	"Ayoub's Fractal"
 
-// typedef	struct	s_mlx
-// {
-// 	void	*init_ptr;
-// 	void	*window_ptr;
-// 	char	*img_ptr;
-// 	char	*addr_ptr;
-// 	int		bit_per_pixel;
-// 	int		line_lenght;
-// 	int		endian;
-// 	int		iter;
-// 	int		max_iter;
-// 	int		iter;
-// 	double	tmp;
-// 	t_coord	win;
-// 	t_c 	c;
-// 	t_z		z;
-// }	t_mlx;
 
 typedef	struct	s_z
 {

@@ -6,7 +6,7 @@
 /*   By: aet-tass <aet-tass@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 18:33:25 by aet-tass          #+#    #+#             */
-/*   Updated: 2023/02/19 19:50:47 by aet-tass         ###   ########.fr       */
+/*   Updated: 2023/02/20 15:45:56 by aet-tass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ int draw_fractal(t_mlx *mlx, int width, int height, int color)
 	return (0);
 }
 
-int color_add(t_mlx mlx)
-{
-    int 
-    int color1  i % 16 + 
-}
+// int color_add(t_mlx mlx)
+// {
+//     int 
+//     int color1  i % 16 + 
+// }
