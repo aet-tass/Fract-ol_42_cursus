@@ -6,7 +6,7 @@
 /*   By: aet-tass <aet-tass@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 14:42:42 by aet-tass          #+#    #+#             */
-/*   Updated: 2023/02/20 15:46:05 by aet-tass         ###   ########.fr       */
+/*   Updated: 2023/02/21 19:31:54 by aet-tass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <mlx.h>
 # define	width 1000
 # define	height 1000
-# define	title	"Ayoub's Fractal"
+# define	title	"Ayoub's Fractal" 
 
 
 typedef	struct	s_z
@@ -49,15 +49,26 @@ typedef	struct	s_mlx
 	int		iter;
 	int		max_iter;
 	double	tmp;
-	t_coord	win;
+	int		color;
+	double	zoom;
+	int		arg;
 	t_c 	c;
 	t_z		z;
 }	t_mlx;
+
+typedef struct	s_color
+{
+    int         r;
+    int         g;
+    int         b;
+}               t_color;
+
 
 
 int draw_fractal(t_mlx *mlx, int w , int h , int color );
 void	mandelbrot_set(t_mlx *mlx);
 void	julia_set(t_mlx *mlx);
 void    ft_init(t_mlx *mlx);
+void get_color(int iter, t_color *color);
 
 #endif

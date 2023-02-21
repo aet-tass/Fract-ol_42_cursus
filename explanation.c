@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mandelbrot_set.c                                   :+:      :+:    :+:   */
+/*   explanation.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aet-tass <aet-tass@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aet-tass <aet-tass@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 14:54:17 by aet-tass          #+#    #+#             */
-/*   Updated: 2023/02/13 20:35:51 by goulem           ###   ########.fr       */
+/*   Updated: 2023/02/21 19:19:35 by aet-tass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,3 +107,5 @@
 /*
  * And here we go , The most exciting part is just beginning ! Let's turn all this talk into an  elegant C code 
  */
+
+

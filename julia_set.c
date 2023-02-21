@@ -6,7 +6,7 @@
 /*   By: aet-tass <aet-tass@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 16:55:07 by aet-tass          #+#    #+#             */
-/*   Updated: 2023/02/20 15:56:27 by aet-tass         ###   ########.fr       */
+/*   Updated: 2023/02/21 17:01:04 by aet-tass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int		check_condition(t_mlx *mlx)
 void	mapping_pixels(t_mlx *mlx)
 {
 	double	scale_factor;
-	scale_factor = 4.0 / width;
+	scale_factor = mlx->zoom / width;
 	mlx->z.re = (mlx->win.i - width / 2.0) * scale_factor;
 	mlx->z.im	=(mlx->win.j - height / 2.0) * scale_factor; 
 }
@@ -72,11 +72,11 @@ void	julia_set(t_mlx	*mlx)
 }
 		
 
-int	main()
-{
-	t_mlx	mlx;
-	ft_init(&mlx);
-	julia_set(&mlx);
+// int	main()
+// {
+// 	t_mlx	mlx;
+// 	ft_init(&mlx);
+// 	julia_set(&mlx);
 
-	mlx_loop(mlx.init_ptr);
-}
+// 	mlx_loop(mlx.init_ptr);
+// }

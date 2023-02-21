@@ -6,7 +6,7 @@
 /*   By: aet-tass <aet-tass@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 14:50:08 by aet-tass          #+#    #+#             */
-/*   Updated: 2023/02/20 15:48:59 by aet-tass         ###   ########.fr       */
+/*   Updated: 2023/02/21 20:01:40 by aet-tass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int		check_condition(t_mlx *mlx)
 void	mapping_pixels(t_mlx *mlx)
 {
 	double	scale_factor;
-	scale_factor = 4.0 / width;
+	scale_factor = mlx->zoom / width;
 	mlx->c.re = (mlx->win.i - width / 2.0) * scale_factor;
 	mlx->c.im	=(mlx->win.j - height / 2.0) * scale_factor; 
 }
@@ -71,11 +71,11 @@ void	mandelbrot_set(t_mlx	*mlx)
 }
 		
 
-int	main()
-{
-	t_mlx	mlx;
-	ft_init(&mlx);
-	mandelbrot_set(&mlx);
+// int	main()
+// {
+// 	t_mlx	mlx;
+// 	ft_init(&mlx);
+// 	mandelbrot_set(&mlx);
 
-	mlx_loop(mlx.init_ptr);
-}
+// 	mlx_loop(mlx.init_ptr);
+// }
