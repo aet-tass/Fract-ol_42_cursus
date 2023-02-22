@@ -1,20 +1,7 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   test.c               ########    ## #     ##    ##             ## ##     */
-/*                                                    +:+ +:+         +:+     */
-/*   By: goulem <marvin@42.fr>                      +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/17 10:46:23 by goulem            #+#    #+#             */
-/*   Updated: 2023/   ########    ##      # #    ##    ##  ##           ##    */
-/*                                                                            */
-/* ************************************************************************** */
-
 
 #include <stdio.h>
 #include <mlx.h>
 #include <math.h>
-
 typedef struct s_mlx
 {
 	void *init;
@@ -35,7 +22,6 @@ int handle(int button, int x, int y, t_mlx *mlx)
 	mlx_pixel_put(mlx->init, mlx->window, x, y, mlx->color);
 	return (0);
 }*/
-
 int draw_fractal(t_mlx *mlx, int width, int height, int color)
 {
 	char *addr;
@@ -47,7 +33,7 @@ int draw_fractal(t_mlx *mlx, int width, int height, int color)
 
 void    mandelbrot_set(t_mlx *mlx)
 {
-	int	max_iteration = 50;
+	int	max_iteration = 350;
 	double	z_re = 0;
 	double	z_img = 0;
 	double	c_re = -0.8;
@@ -69,8 +55,8 @@ void    mandelbrot_set(t_mlx *mlx)
 			z_re = 0;
 			z_img = 0;
 			scale_factor = 4.0/ width;
-			c_re = (x - width / 2.0) * scale_factor;
-			c_img = (y - height / 2.0) * scale_factor;
+			z_re = (x - width / 2.0) * scale_factor;
+			z_img = (y - height / 2.0) * scale_factor;
 			i = 0;
 			//modulo = sqrt(pow(z_re, 2) + pow(z_img, 2));
 			sqrt_modulus = z_re * z_re + z_img * z_img;
@@ -89,10 +75,11 @@ void    mandelbrot_set(t_mlx *mlx)
          		i++;
 			}
 			int	color = i % 16 * 0x000000+ i % 16 * 0xFFFFFF;
-			int	color2 = i % 16 * 0x000000 + i % 16 * 0xECEEF1 + i % 16 * 0x242322 ;
-//			if (i < 17)
-//		 		draw_fractal(mlx, x ,  y, color);
-			if (i < 50)
+			int	color2 = i % 16 * 0xF90000 + i % 16 * 0xF2D027;
+			int     color3 = i % 16 * 0x0F1011 + i % 16 * 0xE9E9E9+ i % 16 * 0x2D3030 ;
+			if (i < 17)
+		 		draw_fractal(mlx, x ,  y, color);
+			else if (i < 50)
 				draw_fractal(mlx,  x , y, color2);
 	 		else
 		 		draw_fractal(mlx, x , y, 0x000000);
@@ -140,5 +127,3 @@ int main()
  * between -2.1 and 0.6 on the x-axis and between -1.2 and 1.2 on the
  * Ordered
  */
-
-
