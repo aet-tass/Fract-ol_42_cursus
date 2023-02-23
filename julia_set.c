@@ -1,14 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mandelbrot_set.c     ########    ## #     ##    ##             ## ##     */
+/*   julia_set.c          ########    ## #     ##    ##             ## ##     */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aet-tass <aet-tass@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/19 14:50:08 by aet-tass          #+#    #+#             */
-/*   Updated: 2023/02/21 20:01:40 by aet-tass         ###   ########.fr       */
+/*   Created: 2023/02/19 16:55:07 by aet-tass          #+#    #+#             */
+/*   Updated: 2023/02/21 17:01:04 by aet-tass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "fractol.h"
 
@@ -35,14 +36,14 @@ void	mapping_pixels(t_mlx *mlx)
 {
 	double	scale_factor;
 	scale_factor = mlx->zoom / width;
-	mlx->c.re = (mlx->win.i - width / 2.0) * scale_factor;
-	mlx->c.im	=(mlx->win.j - height / 2.0) * scale_factor; 
+	mlx->z.re = (mlx->win.i - width / 2.0) * scale_factor;
+	mlx->z.im	=(mlx->win.j - height / 2.0) * scale_factor; 
 }
 
-void	mandelbrot_set(t_mlx	*mlx)
+void	julia_set(t_mlx	*mlx)
 {
-	mlx->z.re = 0;
-	mlx->z.im = 0;
+	mlx->c.re = -0.8;
+	mlx->c.im = 0.156;
 	mlx->max_iter = 50;
 	mlx->win.i = 0;
 	while (mlx->win.i < width)
@@ -54,10 +55,10 @@ void	mandelbrot_set(t_mlx	*mlx)
 			mlx->z.im = 0;
 			mapping_pixels(mlx);
 			mlx->iter = check_condition(mlx); 
-			int	color = mlx->iter % 16 * 0x000000+ mlx->iter % 16 * 0xFFFFFF;
-			int	color2 = mlx->iter % 16 * 0xF90000 + mlx->iter % 16 * 0xF2D027 + mlx->iter % 16 * 0xFFFFFF;
-			 if (mlx->iter < 10)
-		 		draw_fractal(mlx,  mlx->win.i ,  mlx->win.j , color2);
+			int	color1 = mlx->iter % 16 * 0x0F1011+ mlx->iter % 16 * 0xE9E9E9 +  mlx->iter % 16 * 0x2D3030 ;
+			int	color2 = mlx->iter % 16 * 0x0F1011 + mlx->iter % 16 * 0xF2D027 ;
+			 if (mlx->iter < 17)
+		 		draw_fractal(mlx,  mlx->win.i ,  mlx->win.j , color1);
 			 else if (mlx->iter < 50)
 			 	draw_fractal(mlx,  mlx->win.i ,mlx->win.j , color2);
 	 		 else
@@ -75,7 +76,7 @@ void	mandelbrot_set(t_mlx	*mlx)
 // {
 // 	t_mlx	mlx;
 // 	ft_init(&mlx);
-// 	mandelbrot_set(&mlx);
+// 	julia_set(&mlx);
 
 // 	mlx_loop(mlx.init_ptr);
 // }
