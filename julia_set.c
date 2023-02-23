@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   julia_set.c          ########    ## #     ##    ##             ## ##     */
+/*   julia_set.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aet-tass <aet-tass@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 16:55:07 by aet-tass          #+#    #+#             */
-/*   Updated: 2023/02/21 17:01:04 by aet-tass         ###   ########.fr       */
+/*   Updated: 2023/02/23 14:39:23 by aet-tass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 int		check_condition(t_mlx *mlx)
 {
 	double	modulus_squared;
+	
 	double	scale_factor;
 	mlx->max_iter = 50;
 	mlx->iter = 0;
@@ -55,10 +56,10 @@ void	julia_set(t_mlx	*mlx)
 			mlx->z.im = 0;
 			mapping_pixels(mlx);
 			mlx->iter = check_condition(mlx); 
-			int	color1 = mlx->iter % 16 * 0x0F1011+ mlx->iter % 16 * 0xE9E9E9 +  mlx->iter % 16 * 0x2D3030 ;
-			int	color2 = mlx->iter % 16 * 0x0F1011 + mlx->iter % 16 * 0xF2D027 ;
-			 if (mlx->iter < 17)
-		 		draw_fractal(mlx,  mlx->win.i ,  mlx->win.j , color1);
+			int	color = mlx->iter % 16 * 0x000000+ mlx->iter % 16 * 0xFFFFFF;
+			int	color2 = mlx->iter % 16 * 0xF90000 + mlx->iter % 16 * 0xF2D027 + mlx->iter % 16 * 0xFFFFFF;
+			 if (mlx->iter < 10)
+		 		draw_fractal(mlx,  mlx->win.i ,  mlx->win.j , color2);
 			 else if (mlx->iter < 50)
 			 	draw_fractal(mlx,  mlx->win.i ,mlx->win.j , color2);
 	 		 else
@@ -69,14 +70,15 @@ void	julia_set(t_mlx	*mlx)
 		
 	}
 	mlx_put_image_to_window(mlx->init_ptr, mlx->window_ptr, mlx->img_ptr, 0, 0);
-}
 		
+}
+int main()
+{
+	t_mlx mlx;
+	
 
-// int	main()
-// {
-// 	t_mlx	mlx;
-// 	ft_init(&mlx);
-// 	julia_set(&mlx);
+	ft_init(&mlx);
+	julia_set(&mlx);
 
-// 	mlx_loop(mlx.init_ptr);
-// }
+	mlx_loop(mlx.init_ptr);
+}

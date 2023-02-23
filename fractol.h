@@ -6,7 +6,7 @@
 /*   By: aet-tass <aet-tass@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 14:42:42 by aet-tass          #+#    #+#             */
-/*   Updated: 2023/02/21 19:31:54 by aet-tass         ###   ########.fr       */
+/*   Updated: 2023/02/23 14:49:19 by aet-tass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef	struct s_coord
 	int	j;
 }	t_coord;
 
+
 typedef	struct	s_mlx
 {
 	void	*init_ptr;
@@ -52,23 +53,17 @@ typedef	struct	s_mlx
 	int		color;
 	double	zoom;
 	int		arg;
+	t_coord	win;
 	t_c 	c;
 	t_z		z;
 }	t_mlx;
 
-typedef struct	s_color
-{
-    int         r;
-    int         g;
-    int         b;
-}               t_color;
-
-
-
-int draw_fractal(t_mlx *mlx, int w , int h , int color );
+int 	draw_fractal(t_mlx *mlx, int w, int h, int color);
 void	mandelbrot_set(t_mlx *mlx);
 void	julia_set(t_mlx *mlx);
 void    ft_init(t_mlx *mlx);
-void get_color(int iter, t_color *color);
+int		ft_atoi(const char *str);
+float 	float_atoi(const char *str);
+int 	arg_stored(int ac, char **av, t_mlx *mlx);
 
 #endif
