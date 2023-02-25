@@ -6,16 +6,15 @@
 /*   By: aet-tass <aet-tass@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 14:50:08 by aet-tass          #+#    #+#             */
-/*   Updated: 2023/02/23 14:42:14 by aet-tass         ###   ########.fr       */
+/*   Updated: 2023/02/25 17:43:29 by aet-tass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-int		check_condition(t_mlx *mlx)
+int		check_condition_mandelbrot(t_mlx *mlx)
 {
 	double	modulus_squared;
-	double	scale_factor;
 	mlx->max_iter = 50;
 	mlx->iter = 0;
 	modulus_squared = mlx->z.re * mlx->z.re + mlx->z.im * mlx->z.im;
@@ -31,7 +30,7 @@ int		check_condition(t_mlx *mlx)
 	return(mlx->iter);	
 }
 
-void	mapping_pixels(t_mlx *mlx)
+void	mapping_pixels_mandelbrot(t_mlx *mlx)
 {
 	double	scale_factor;
 	scale_factor = mlx->zoom / width;
@@ -41,6 +40,8 @@ void	mapping_pixels(t_mlx *mlx)
 
 void	mandelbrot_set(t_mlx	*mlx)
 {
+	mlx->img_ptr = mlx_new_image(mlx->init_ptr , width, height);
+    mlx->addr_ptr = mlx_get_data_addr(mlx->img_ptr, &mlx->bit_per_pixel, &mlx->line_lenght, &mlx->endian);
 	mlx->z.re = 0;
 	mlx->z.im = 0;
 	mlx->max_iter = 50;
@@ -52,9 +53,9 @@ void	mandelbrot_set(t_mlx	*mlx)
 		{
 			mlx->z.re = 0;
 			mlx->z.im = 0;
-			mapping_pixels(mlx);
-			mlx->iter = check_condition(mlx); 
-			int	color = mlx->iter % 16 * 0x000000+ mlx->iter % 16 * 0xFFFFFF;
+			mapping_pixels_mandelbrot(mlx);
+			mlx->iter = check_condition_mandelbrot(mlx); 
+			//int	color = mlx->iter % 16 * 0x000000+ mlx->iter % 16 * 0xFFFFFF;
 			int	color2 = mlx->iter % 16 * 0xF90000 + mlx->iter % 16 * 0xF2D027 + mlx->iter % 16 * 0xFFFFFF;
 			 if (mlx->iter < 10)
 		 		draw_fractal(mlx,  mlx->win.i ,  mlx->win.j , color2);
@@ -69,13 +70,3 @@ void	mandelbrot_set(t_mlx	*mlx)
 	}
 	mlx_put_image_to_window(mlx->init_ptr, mlx->window_ptr, mlx->img_ptr, 0, 0);
 }
-		
-
-// int	main()
-// {
-// 	t_mlx	mlx;
-// 	ft_init(&mlx);
-// 	mandelbrot_set(&mlx);
-
-// 	mlx_loop(mlx.init_ptr);
-// }

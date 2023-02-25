@@ -6,7 +6,7 @@
 /*   By: aet-tass <aet-tass@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 14:42:42 by aet-tass          #+#    #+#             */
-/*   Updated: 2023/02/23 14:49:19 by aet-tass         ###   ########.fr       */
+/*   Updated: 2023/02/24 22:20:04 by aet-tass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,5 +65,6 @@ void    ft_init(t_mlx *mlx);
 int		ft_atoi(const char *str);
 float 	float_atoi(const char *str);
 int 	arg_stored(int ac, char **av, t_mlx *mlx);
+int    zoom(int  key, int    x, int  y, t_mlx *mlx);
 
 #endif
