@@ -6,7 +6,7 @@
 /*   By: aet-tass <aet-tass@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/19 18:33:25 by aet-tass          #+#    #+#             */
-/*   Updated: 2023/02/23 14:47:58 by aet-tass         ###   ########.fr       */
+/*   Updated: 2023/03/07 21:55:39 by aet-tass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ float float_atoi(const char *str)
          str++;
      }
 
-    /* Parse fractional part */
     if (*str == '.') {
         str++;
 
@@ -77,6 +76,35 @@ float float_atoi(const char *str)
 
         result += fraction * fraction_value;
     }
-
     return sign * result;
+}
+
+int		get_color(t_mlx *mlx)
+{
+	int	color;
+	if (mlx->max_iter < 2)
+		color = 0xffffff;
+	else if(mlx->max_iter < 4)
+		color = 0xf5f3f4;
+	else if(mlx->max_iter < 6)
+		color = 0xd3d3d3;
+	else 
+		color = 0xede0d4;
+	return (color);			
+}
+void	coloring(t_mlx *mlx)
+{
+	mlx->color = get_color(mlx);
+	if (mlx->iter < mlx->max_iter)
+		draw_fractal(mlx, mlx->win.i, mlx->win.j , mlx->color);
+	else 
+		draw_fractal(mlx, mlx->win.i, mlx->win.j, 0x000000);
+}
+void	ft_putstr_fd(char *str, int fd)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	write(fd, &str[i++], 1);
 }
