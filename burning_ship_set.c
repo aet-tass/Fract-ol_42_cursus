@@ -6,7 +6,7 @@
 /*   By: aet-tass <aet-tass@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 17:59:18 by aet-tass          #+#    #+#             */
-/*   Updated: 2023/03/07 23:50:08 by aet-tass         ###   ########.fr       */
+/*   Updated: 2023/03/08 23:13:40 by aet-tass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,24 +42,24 @@ void	mapping_burningship(t_mlx *mlx)
 {
 	double	scale_factor;
 
-	scale_factor = mlx->zoom / width;
-	mlx->c.re = (mlx->win.i - width / 2.0) * scale_factor;
-	mlx->c.im = (mlx->win.j - height / 2.0) * scale_factor;
+	scale_factor = mlx->zoom / WIDTH;
+	mlx->c.re = (mlx->win.i - WIDTH / 2.0) * scale_factor;
+	mlx->c.im = (mlx->win.j - HEIGHT / 2.0) * scale_factor;
 }
 
-void	burning_ship_set(t_mlx	*mlx)
+void	burning_ship_set(t_mlx *mlx)
 {
-	mlx->img_ptr = mlx_new_image(mlx->init_ptr, width, height);
+	mlx->img_ptr = mlx_new_image(mlx->init_ptr, WIDTH, HEIGHT);
 	mlx->addr_ptr = mlx_get_data_addr(mlx->img_ptr, &mlx->bit_per_pixel,
 			&mlx->line_lenght, &mlx->endian);
 	mlx->z.re = 0;
 	mlx->z.im = 0;
 	mlx->max_iter = 50;
 	mlx->win.i = 0;
-	while (mlx->win.i < width)
+	while (mlx->win.i < WIDTH)
 	{
 		mlx->win.j = 0;
-		while (mlx->win.j < height)
+		while (mlx->win.j < HEIGHT)
 		{
 			mlx->z.re = 0;
 			mlx->z.im = 0;
